@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carrera;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCarreraRequest;
+use App\Http\Requests\UpdateCarreraRequest;
 use Illuminate\Support\Facades\Storage;
 
 class CarreraController extends Controller
@@ -19,22 +20,9 @@ class CarreraController extends Controller
         return view('carreras.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreCarreraRequest $request)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'nivel_formacion' => 'required|string|max:255',
-            'perfil_profesional' => 'required|string',
-            'cargos_ocupaciones' => 'required|string',
-            'duracion' => 'required|string',
-            'ambito_profesional' => 'required|string',
-            'requisitos' => 'required|string',
-            'imagen_ruta' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'video_url' => 'nullable|url',
-            'anio_academico' => 'required|digits:4|integer',
-        ]);
-
-        $datos = $request->all();
+        $datos = $request->validated();
 
         if ($request->hasFile('imagen_ruta')) {
             $datos['imagen_ruta'] = $request->file('imagen_ruta')->store('carreras', 'public');
@@ -50,22 +38,9 @@ class CarreraController extends Controller
         return view('carreras.edit', compact('carrera'));
     }
 
-    public function update(Request $request, Carrera $carrera)
+    public function update(UpdateCarreraRequest $request, Carrera $carrera)
     {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'nivel_formacion' => 'required|string|max:255',
-            'perfil_profesional' => 'required|string',
-            'cargos_ocupaciones' => 'required|string',
-            'duracion' => 'required|string',
-            'ambito_profesional' => 'required|string',
-            'requisitos' => 'required|string',
-            'imagen_ruta' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'video_url' => 'nullable|url',
-            'anio_academico' => 'required|digits:4|integer',
-        ]);
-
-        $datos = $request->all();
+        $datos = $request->validated();
 
         if ($request->hasFile('imagen_ruta')) {
             if ($carrera->imagen_ruta) {
