@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,7 +10,10 @@ class Interesado extends Model
     use HasFactory;
 
     protected $fillable = [
-        'carrera_id', 'nombre_completo', 'telefono', 'correo'
+        'carrera_id', 
+        'nombre_completo', 
+        'telefono', 
+        'correo'
     ];
 
     public function carrera()
