@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $carrera->nombre }} - CT Olof Palme</title>
+    <title>{{ $carrera->nombre }} | CT Olof Palme</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#EBE9E1] antialiased text-gray-800 font-sans">
@@ -28,7 +28,7 @@
     <!-- Presentación Principal de la Carrera -->
     <section class="max-w-7xl mx-auto px-4 py-10">
         <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border-t-8 border-[#003876] flex flex-col md:flex-row">
-            @if($carrera->imagen_ruta)
+            @if ($carrera->imagen_ruta)
                 <div class="md:w-1/2">
                     <img src="{{ asset('storage/' . $carrera->imagen_ruta) }}" alt="{{ $carrera->nombre }}" class="w-full h-full object-cover min-h-[300px]">
                 </div>
@@ -73,9 +73,24 @@
                     <h3 class="text-lg font-extrabold text-[#003876] mb-2">Ámbito Profesional</h3>
                     <p class="text-gray-700 font-medium">{{ $carrera->ambito_profesional }}</p>
                 </div>
+                
                 <div class="bg-blue-50 p-6 rounded-2xl border border-[#0089D0] shadow-sm">
                     <h3 class="text-lg font-extrabold text-[#0089D0] mb-2">Requisitos de Ingreso</h3>
-                    <p class="whitespace-pre-line text-[#003876] font-bold">{{ $carrera->requisitos }}</p>
+                    @if (!empty($carrera->requisitos))
+                        <ul class="list-disc pl-5 text-[#003876] font-bold space-y-1">
+                            @php
+                                $requisitos_array = explode("\n", $carrera->requisitos);
+                            @endphp
+                            
+                            @foreach ($requisitos_array as $requisito)
+                                @if (trim($requisito) != '')
+                                    <li>{{ trim($requisito) }}</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-[#003876] font-bold">Información no especificada.</p>
+                    @endif
                 </div>
             </div>
 
@@ -84,7 +99,7 @@
         <!-- Columna Derecha: Video y Formulario de Matrícula -->
         <div class="lg:col-span-5 space-y-8">
             
-            @if($carrera->embed_video)
+            @if ($carrera->embed_video)
                 <div class="bg-white p-2 rounded-2xl shadow-xl border-4 border-gray-100">
                     <div class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden bg-black">
                         <iframe src="{{ $carrera->embed_video }}" title="Video de la Especialidad" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-[250px] md:h-[300px]"></iframe>
@@ -116,7 +131,7 @@
                     <div class="mb-8">
                         <label class="block text-sm font-bold text-[#003876] mb-2">Especialidad de Interés</label>
                         <select name="carrera_id" class="w-full rounded-xl border-gray-300 focus:border-[#E91E63] focus:ring-[#E91E63] bg-gray-50 transition" required>
-                            @foreach($carreras as $opcion)
+                            @foreach ($carreras as $opcion)
                                 <option value="{{ $opcion->id }}" {{ $carrera->id == $opcion->id ? 'selected' : '' }}>
                                     {{ $opcion->nombre }}
                                 </option>

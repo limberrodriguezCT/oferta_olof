@@ -46,7 +46,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
                             <label class="block text-sm font-bold text-[#003876] mb-2">Duración</label>
-                            <input type="text" name="duracion" value="{{ old('duracion') }}" placeholder="Ej: 2 años" class="w-full rounded-xl border-gray-300 focus:border-[#0089D0] focus:ring-[#0089D0] bg-gray-50 focus:bg-white transition" required>
+                            <textarea type="text" name="duracion" value="{{ old('duracion') }}" placeholder="Ej: 2 años" class="w-full rounded-xl border-gray-300 focus:border-[#0089D0] focus:ring-[#0089D0] bg-gray-50 focus:bg-white transition" required></textarea>
                             @error('duracion') <span class="text-red-500 text-sm font-medium mt-1">{{ $message }}</span> @enderror
                         </div>
                         <div>
