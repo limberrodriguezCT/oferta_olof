@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Interesado;
 use App\Http\Requests\StoreInteresadoRequest;
+use App\Exports\InteresadosExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InteresadoController extends Controller
 {
@@ -18,5 +20,10 @@ class InteresadoController extends Controller
         Interesado::create($request->validated());
 
         return redirect()->back()->with('success', 'Sus datos han sido registrados. Pronto nos comunicaremos.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new InteresadosExport, 'prospectos_olof_palme.xlsx');
     }
 }

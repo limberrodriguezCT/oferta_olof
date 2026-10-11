@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carrera;
-use App\Http\Requests\StoreCarreraRequest;
-use App\Http\Requests\UpdateCarreraRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CarreraController extends Controller
 {
     public function index()
     {
-        $carreras = Carrera::orderBy('anio_academico', 'desc')->get();
+        $carreras = Carrera::all();
         return view('carreras.index', compact('carreras'));
     }
 
@@ -20,17 +19,32 @@ class CarreraController extends Controller
         return view('carreras.create');
     }
 
-    public function store(StoreCarreraRequest $request)
+    public function store(Request $request)
     {
-        $datos = $request->validated();
+        // 1. Reglas de validación que activan los mensajes de error en la vista
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'nivel_formacion' => 'required|string',
+            'perfil_profesional' => 'required|string',
+            'cargos_ocupaciones' => 'required|string',
+            'duracion' => 'required|string',
+            'anio_academico' => 'required|integer',
+            'ambito_profesional' => 'required|string',
+            'requisitos' => 'required|string',
+            'imagen_ruta' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'video_url' => 'nullable|url'
+        ]);
 
+        // 2. Procesamiento de la imagen si el usuario subió una
         if ($request->hasFile('imagen_ruta')) {
-            $datos['imagen_ruta'] = $request->file('imagen_ruta')->store('carreras', 'public');
+            $validated['imagen_ruta'] = $request->file('imagen_ruta')->store('carreras', 'public');
         }
 
-        Carrera::create($datos);
+        // 3. Creación del registro en la base de datos
+        Carrera::create($validated);
 
-        return redirect()->route('carreras.index')->with('success', 'Carrera registrada correctamente.');
+        // 4. Redirección con el mensaje de éxito para SweetAlert
+        return redirect()->route('carreras.index')->with('success', 'Especialidad registrada correctamente.');
     }
 
     public function edit(Carrera $carrera)
@@ -38,29 +52,42 @@ class CarreraController extends Controller
         return view('carreras.edit', compact('carrera'));
     }
 
-    public function update(UpdateCarreraRequest $request, Carrera $carrera)
+    public function update(Request $request, Carrera $carrera)
     {
-        $datos = $request->validated();
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'nivel_formacion' => 'required|string',
+            'perfil_profesional' => 'required|string',
+            'cargos_ocupaciones' => 'required|string',
+            'duracion' => 'required|string',
+            'anio_academico' => 'required|integer',
+            'ambito_profesional' => 'required|string',
+            'requisitos' => 'required|string',
+            'imagen_ruta' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'video_url' => 'nullable|url'
+        ]);
 
         if ($request->hasFile('imagen_ruta')) {
+            // Eliminar la imagen anterior del servidor para no acumular basura
             if ($carrera->imagen_ruta) {
                 Storage::disk('public')->delete($carrera->imagen_ruta);
             }
-            $datos['imagen_ruta'] = $request->file('imagen_ruta')->store('carreras', 'public');
+            $validated['imagen_ruta'] = $request->file('imagen_ruta')->store('carreras', 'public');
         }
 
-        $carrera->update($datos);
+        $carrera->update($validated);
 
-        return redirect()->route('carreras.index')->with('success', 'Carrera actualizada correctamente.');
+        return redirect()->route('carreras.index')->with('success', 'Especialidad actualizada correctamente.');
     }
 
     public function destroy(Carrera $carrera)
     {
+        // Eliminar la imagen del servidor al borrar la carrera
         if ($carrera->imagen_ruta) {
             Storage::disk('public')->delete($carrera->imagen_ruta);
         }
         $carrera->delete();
 
-        return redirect()->route('carreras.index')->with('success', 'Carrera eliminada correctamente.');
+        return redirect()->route('carreras.index')->with('success', 'Especialidad eliminada permanentemente.');
     }
 }
