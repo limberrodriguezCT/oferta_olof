@@ -6,7 +6,15 @@
     <title>Oferta Académica - Centro Tecnológico Olof Palme</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-[#EBE9E1] antialiased text-gray-800 font-sans">
+<!-- Fondo de cuadrícula tipo "papel milimetrado" generado 100% con CSS (sin imágenes) -->
+<body class="antialiased text-gray-800 font-sans" 
+      style="
+        background-color: #EBE9E1;
+        background-image: 
+          linear-gradient(to right, rgba(0, 56, 118, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 56, 118, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+      ">
 
     <!-- Encabezado con Logo -->
     <header class="bg-white shadow-md py-3 sticky top-0 z-40 border-b-4 border-[#8cc63f]">
@@ -66,7 +74,6 @@
                         <p class="text-gray-600 text-sm mb-5 line-clamp-3">{{ $carrera->perfil_profesional }}</p>
                         
                         <div class="mt-auto">
-                            <!-- Enlace que redirige a la nueva vista show.blade.php -->
                             <a href="{{ route('oferta.show', $carrera->id) }}" class="w-full block text-center bg-[#0089D0] hover:bg-[#0074B2] text-white font-semibold py-3 rounded-xl shadow-md transition duration-200">
                                 Ver Detalles de la Carrera
                             </a>

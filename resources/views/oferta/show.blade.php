@@ -6,7 +6,14 @@
     <title>{{ $carrera->nombre }} | CT Olof Palme</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-[#EBE9E1] antialiased text-gray-800 font-sans">
+<body class="antialiased text-gray-800 font-sans" 
+      style="
+        background-color: #EBE9E1;
+        background-image: 
+          linear-gradient(to right, rgba(0, 56, 118, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 56, 118, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+      ">
 
     <!-- Encabezado con Logo -->
     <header class="bg-white shadow-md py-3 sticky top-0 z-40 border-b-4 border-[#8cc63f]">
@@ -52,28 +59,74 @@
         <!-- Columna Izquierda: Información Técnica -->
         <div class="lg:col-span-7 space-y-8">
             
+            <!-- Perfil Profesional -->
             <div class="bg-white p-8 rounded-2xl shadow-lg border-l-8 border-[#8cc63f]">
                 <h3 class="text-2xl font-extrabold text-[#003876] mb-4 flex items-center gap-2">
                     <svg class="w-6 h-6 text-[#8cc63f]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     Perfil Profesional
                 </h3>
-                <p class="whitespace-pre-line text-gray-700 leading-relaxed font-medium">{{ $carrera->perfil_profesional }}</p>
+                @if (!empty($carrera->perfil_profesional))
+                    <ul class="list-disc pl-5 text-gray-700 leading-relaxed font-medium space-y-1">
+                        @php
+                            $perfiles_array = explode("\n", $carrera->perfil_profesional);
+                        @endphp
+                        
+                        @foreach ($perfiles_array as $perfil)
+                            @if (trim($perfil) != '')
+                                <li>{{ trim($perfil) }}</li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @else
+                    <p class="text-gray-700 leading-relaxed font-medium">Información no especificada.</p>
+                @endif
             </div>
 
+            <!-- Cargos u Ocupaciones -->
             <div class="bg-white p-8 rounded-2xl shadow-lg border-l-8 border-[#0089D0]">
                 <h3 class="text-2xl font-extrabold text-[#003876] mb-4 flex items-center gap-2">
                     <svg class="w-6 h-6 text-[#0089D0]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     Cargos u Ocupaciones
                 </h3>
-                <p class="whitespace-pre-line text-gray-700 leading-relaxed font-medium">{{ $carrera->cargos_ocupaciones }}</p>
+                @if (!empty($carrera->cargos_ocupaciones))
+                    <ul class="list-disc pl-5 text-gray-700 leading-relaxed font-medium space-y-1">
+                        @php
+                            $cargos_array = explode("\n", $carrera->cargos_ocupaciones);
+                        @endphp
+                        
+                        @foreach ($cargos_array as $cargo)
+                            @if (trim($cargo) != '')
+                                <li>{{ trim($cargo) }}</li>
+                            @endif
+                        @endforeach
+                    </ul>
+                @else
+                    <p class="text-gray-700 leading-relaxed font-medium">Información no especificada.</p>
+                @endif
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Ámbito Profesional -->
                 <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200 shadow-sm">
                     <h3 class="text-lg font-extrabold text-[#003876] mb-2">Ámbito Profesional</h3>
-                    <p class="text-gray-700 font-medium">{{ $carrera->ambito_profesional }}</p>
+                    @if (!empty($carrera->ambito_profesional))
+                        <ul class="list-disc pl-5 text-gray-700 font-medium space-y-1">
+                            @php
+                                $ambitos_array = explode("\n", $carrera->ambito_profesional);
+                            @endphp
+                            
+                            @foreach ($ambitos_array as $ambito)
+                                @if (trim($ambito) != '')
+                                    <li>{{ trim($ambito) }}</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-gray-700 font-medium">Información no especificada.</p>
+                    @endif
                 </div>
                 
+                <!-- Requisitos de Ingreso -->
                 <div class="bg-blue-50 p-6 rounded-2xl border border-[#0089D0] shadow-sm">
                     <h3 class="text-lg font-extrabold text-[#0089D0] mb-2">Requisitos de Ingreso</h3>
                     @if (!empty($carrera->requisitos))

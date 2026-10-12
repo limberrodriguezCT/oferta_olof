@@ -1,52 +1,59 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <div class="mb-8 text-center">
-        <h2 class="text-2xl font-extrabold text-[#003876]">Acceso Administrativo</h2>
-        <p class="text-sm text-gray-500 mt-2">Ingrese sus credenciales para gestionar la plataforma</p>
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Acceso Administrativo | CT Olof Palme</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="antialiased text-gray-800 font-sans min-h-screen flex flex-col justify-center items-center" 
+      style="
+        background-color: #EBE9E1;
+        background-image: 
+          linear-gradient(to right, rgba(0, 56, 118, 0.05) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(0, 56, 118, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+      ">
+    
+    <div class="mb-8">
+        <a href="{{ route('inicio') ?? url('/') }}">
+            <div class="bg-white p-4 rounded-3xl shadow-md border-b-4 border-[#8cc63f]">
+                <img src="{{ asset('img/logo-ct.png') }}" alt="Logo CT Olof Palme" class="h-16 w-auto object-contain">
+            </div>
+        </a>
     </div>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    <div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-xl border-t-8 border-[#8cc63f]">
+        <h2 class="text-2xl font-bold text-center text-[#003876] mb-2">Acceso Administrativo</h2>
+        <p class="text-sm text-center text-gray-500 mb-8">Ingrese sus credenciales para gestionar la plataforma</p>
 
-        <!-- Email Address -->
-        <div>
-            <label for="email" class="block font-bold text-sm text-[#003876]">Correo Electrónico</label>
-            <input id="email" class="block mt-2 w-full rounded-xl border-gray-300 focus:border-[#0089D0] focus:ring-[#0089D0] bg-gray-50 focus:bg-white transition" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
+            <div class="mb-5">
+                <label class="block text-sm font-bold text-[#003876] mb-2">Correo Electrónico</label>
+                <input type="email" name="email" class="w-full rounded-xl border-gray-300 focus:border-[#0089D0] focus:ring-[#0089D0] bg-white transition" required autofocus>
+            </div>
 
-        <!-- Password -->
-        <div class="mt-6">
-            <label for="password" class="block font-bold text-sm text-[#003876]">Contraseña</label>
-            <input id="password" class="block mt-2 w-full rounded-xl border-gray-300 focus:border-[#0089D0] focus:ring-[#0089D0] bg-gray-50 focus:bg-white transition"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <div class="mb-5">
+                <label class="block text-sm font-bold text-[#003876] mb-2">Contraseña</label>
+                <input type="password" name="password" class="w-full rounded-xl border-gray-300 focus:border-[#0089D0] focus:ring-[#0089D0] bg-white transition" required>
+            </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-6 bg-gray-50 p-3 rounded-lg border border-gray-100">
-            <label for="remember_me" class="inline-flex items-center cursor-pointer">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 text-[#8cc63f] shadow-sm focus:ring-[#8cc63f]" name="remember">
-                <span class="ms-3 text-sm font-medium text-gray-700">Mantener sesión iniciada</span>
-            </label>
-        </div>
+            <div class="mb-6 flex items-center">
+                <input type="checkbox" name="remember" id="remember" class="rounded border-gray-300 text-[#0089D0] focus:ring-[#0089D0]">
+                <label for="remember" class="ml-2 text-sm text-gray-600">Mantener sesión iniciada</label>
+            </div>
 
-        <div class="flex flex-col space-y-4 mt-8">
-            <button type="submit" class="w-full bg-[#0089D0] hover:bg-[#0074B2] text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:-translate-y-1">
+            <button type="submit" class="w-full bg-[#0089D0] hover:bg-[#0074B2] text-white font-bold py-3 rounded-xl shadow-lg transition duration-300">
                 Ingresar al Sistema
             </button>
+            
+            <div class="mt-6 text-center">
+                <a href="#" class="text-sm text-gray-500 hover:text-[#0089D0] transition">¿Olvidó su contraseña?</a>
+            </div>
+        </form>
+    </div>
 
-            @if (Route::has('password.request'))
-                <div class="text-center">
-                    <a class="underline text-sm text-gray-500 hover:text-[#003876] transition" href="{{ route('password.request') }}">
-                        ¿Olvidó su contraseña?
-                    </a>
-                </div>
-            @endif
-        </div>
-    </form>
-</x-guest-layout>
+    <x-notificaciones />
+</body>
+</html>
