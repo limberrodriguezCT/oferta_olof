@@ -6,7 +6,6 @@
     <title>Oferta Académica - Centro Tecnológico Olof Palme</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<!-- Fondo de cuadrícula tipo "papel milimetrado" generado 100% con CSS (sin imágenes) -->
 <body class="antialiased text-gray-800 font-sans" 
       style="
         background-color: #EBE9E1;
@@ -16,7 +15,6 @@
         background-size: 40px 40px;
       ">
 
-    <!-- Encabezado con Logo -->
     <header class="bg-white shadow-md py-3 sticky top-0 z-40 border-b-4 border-[#8cc63f]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div class="flex items-center">
@@ -32,7 +30,6 @@
         </div>
     </header>
 
-    <!-- Sección Hero -->
     <section class="py-16 text-center px-4">
         <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tight drop-shadow-sm">
             <span class="text-[#0089D0]">YO </span><span class="text-[#E91E63]">ELIJO SER</span>
@@ -45,16 +42,88 @@
         </div>
     </section>
 
-    <!-- Video Institucional -->
-    <section class="max-w-5xl mx-auto px-4 mb-16 mt-8">
-        <div class="bg-white p-2 rounded-2xl shadow-xl border border-gray-200">
-            <div class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden bg-black">
-                <iframe class="w-full h-[400px] md:h-[500px]" src="https://www.youtube.com/embed/ID_DEL_VIDEO_PRINCIPAL" title="Video Institucional del Centro" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!-- Carrusel del Centro con Flechas y 5 imágenes -->
+    <section class="max-w-6xl mx-auto px-4 mb-16 mt-8">
+        <h3 class="text-3xl font-extrabold text-center text-[#003876] mb-8">Conoce Nuestro centro:</h3>
+        
+        <div class="relative bg-white p-3 rounded-3xl shadow-xl border border-gray-200 group">
+            
+            <!-- Botón Anterior -->
+            <button id="btn-prev" class="absolute left-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-[#003876] p-3 rounded-full shadow-xl z-20 transition duration-300 transform hover:scale-110 border border-gray-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+
+            <!-- Contenedor de las fotos -->
+            <div id="carrusel-centro" class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth relative z-10" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <style>#carrusel-centro::-webkit-scrollbar { display: none; }</style>
+                
+                <!-- Arreglo limpio de 5 imágenes -->
+                @php
+                    $imagenesCentro = [
+                        'centro1.jpg',
+                        'centro2.jpg',
+                        'centro3.jpg',
+                        'centro4.jpg',
+                        'centro5.jpg',
+                        'centro6.jpg',
+                        'centro7.jpg',
+                        'centro8.jpg',
+                        'centro9.jpg',
+                        'centro10.jpg',
+                    ];
+                @endphp
+
+                @foreach($imagenesCentro as $img)
+                <div class="snap-center shrink-0 w-full md:w-3/4 lg:w-2/3 h-[400px] md:h-[500px] rounded-2xl overflow-hidden relative shadow-md">
+                    <img src="{{ asset('img/' . $img) }}" alt="Instalaciones del Centro" class="w-full h-full object-cover bg-gray-200">
+                </div>
+                @endforeach
+
             </div>
+
+            <!-- Botón Siguiente -->
+            <button id="btn-next" class="absolute right-6 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-[#003876] p-3 rounded-full shadow-xl z-20 transition duration-300 transform hover:scale-110 border border-gray-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
         </div>
     </section>
 
-    <!-- Tarjetas de Especialidades con enlace a la vista dinámica -->
+    <!-- Script de navegación con flechas y auto-reproducción -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const carrusel = document.getElementById('carrusel-centro');
+            const btnPrev = document.getElementById('btn-prev');
+            const btnNext = document.getElementById('btn-next');
+            
+            if (!carrusel) return;
+
+            const moverDerecha = () => {
+                if (carrusel.scrollLeft + carrusel.clientWidth >= carrusel.scrollWidth - 10) {
+                    carrusel.scrollTo({ left: 0, behavior: 'smooth' });
+                } else {
+                    carrusel.scrollBy({ left: carrusel.clientWidth, behavior: 'smooth' });
+                }
+            };
+
+            const moverIzquierda = () => {
+                if (carrusel.scrollLeft <= 0) {
+                    carrusel.scrollTo({ left: carrusel.scrollWidth, behavior: 'smooth' });
+                } else {
+                    carrusel.scrollBy({ left: -carrusel.clientWidth, behavior: 'smooth' });
+                }
+            };
+
+            btnNext.addEventListener('click', moverDerecha);
+            btnPrev.addEventListener('click', moverIzquierda);
+
+            let intervalo = setInterval(moverDerecha, 3500);
+
+            // Pausa el carrusel cuando se pasa el mouse por encima
+            carrusel.parentElement.addEventListener('mouseenter', () => clearInterval(intervalo));
+            carrusel.parentElement.addEventListener('mouseleave', () => intervalo = setInterval(moverDerecha, 3500));
+        });
+    </script>
+
     <section class="max-w-7xl mx-auto px-4 mb-16" id="carreras">
         <h3 class="text-3xl font-extrabold text-center text-[#003876] mb-10">Conozca Nuestras Especialidades</h3>
         
@@ -84,11 +153,9 @@
         </div>
     </section>
 
-    <!-- Formulario General y Mapa -->
     <section class="bg-white py-16 border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             
-            <!-- Formulario -->
             <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-full h-2 bg-[#8cc63f]"></div>
                 
@@ -128,7 +195,6 @@
                 </form>
             </div>
 
-            <!-- Mapa -->
             <div class="flex flex-col h-full">
                 <h3 class="text-2xl font-extrabold text-[#8cc63f] mb-2">Nuestra Ubicación</h3>
                 <p class="text-gray-600 mb-6">Km 136 Carretera Panamericana Santa Cruz, Estelí.</p>
@@ -148,7 +214,6 @@
         </div>
     </section>
 
-    <!-- Pie de página -->
     <footer class="bg-[#003876] text-white py-10 text-center">
         <div class="max-w-7xl mx-auto px-4">
             <h4 class="font-extrabold text-2xl tracking-wide mb-2">Centro Tecnológico Olof Palme, Estelí</h4>
