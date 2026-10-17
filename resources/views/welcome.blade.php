@@ -18,7 +18,11 @@
     <header class="bg-white shadow-md py-3 sticky top-0 z-40 border-b-4 border-[#8cc63f]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div class="flex items-center">
-                <img src="{{ asset('img/logo-ct.png') }}" alt="Logo CT Olof Palme" class="h-14 w-auto object-contain">
+                @php
+                    $logoPath = public_path('img/logo-ct.png');
+                    $logoVersion = file_exists($logoPath) ? filemtime($logoPath) : '1';
+                @endphp
+                <img src="{{ asset('img/logo-ct.png') }}?v={{ $logoVersion }}" alt="Logo CT Olof Palme" class="h-14 w-auto object-contain">
             </div>
             <div>
                 @auth
@@ -42,7 +46,7 @@
         </div>
     </section>
 
-    <!-- Carrusel del Centro con Flechas y 5 imágenes -->
+    <!-- Carrusel del Centro con Flechas y evasión de caché automática -->
     <section class="max-w-6xl mx-auto px-4 mb-16 mt-8">
         <h3 class="text-3xl font-extrabold text-center text-[#003876] mb-8">Conoce Nuestro centro:</h3>
         
@@ -57,7 +61,6 @@
             <div id="carrusel-centro" class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 scroll-smooth relative z-10" style="scrollbar-width: none; -ms-overflow-style: none;">
                 <style>#carrusel-centro::-webkit-scrollbar { display: none; }</style>
                 
-                <!-- Arreglo limpio de 5 imágenes -->
                 @php
                     $imagenesCentro = [
                         'centro1.jpg',
@@ -72,14 +75,17 @@
                         'centro10.jpg',
                         'centro11.jpg',
                         'centro12.jpg',
-                        
                     ];
                 @endphp
 
                 @foreach($imagenesCentro as $img)
-                <div class="snap-center shrink-0 w-full md:w-3/4 lg:w-2/3 h-[400px] md:h-[500px] rounded-2xl overflow-hidden relative shadow-md">
-                    <img src="{{ asset('img/' . $img) }}" alt="Instalaciones del Centro" class="w-full h-full object-cover bg-gray-200">
-                </div>
+                    @php
+                        $rutaFisica = public_path('img/' . $img);
+                        $version = file_exists($rutaFisica) ? filemtime($rutaFisica) : '1';
+                    @endphp
+                    <div class="snap-center shrink-0 w-full md:w-3/4 lg:w-2/3 h-[400px] md:h-[500px] rounded-2xl overflow-hidden relative shadow-md">
+                        <img src="{{ asset('img/' . $img) }}?v={{ $version }}" alt="Instalaciones del Centro" class="w-full h-full object-cover bg-gray-200">
+                    </div>
                 @endforeach
 
             </div>
@@ -135,7 +141,11 @@
                 <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden border-b-4 border-[#0089D0] flex flex-col group">
                     
                     @if($carrera->imagen_ruta)
-                        <img src="{{ asset('storage/' . $carrera->imagen_ruta) }}" alt="{{ $carrera->nombre }}" class="w-full h-52 object-cover group-hover:scale-105 transition duration-500">
+                        @php
+                            $rutaImagenCarrera = public_path('storage/' . $carrera->imagen_ruta);
+                            $versionCarrera = file_exists($rutaImagenCarrera) ? filemtime($rutaImagenCarrera) : '1';
+                        @endphp
+                        <img src="{{ asset('storage/' . $carrera->imagen_ruta) }}?v={{ $versionCarrera }}" alt="{{ $carrera->nombre }}" class="w-full h-52 object-cover group-hover:scale-105 transition duration-500">
                     @else
                         <div class="w-full h-52 bg-gray-100 flex items-center justify-center text-gray-400">Sin Imagen</div>
                     @endif
