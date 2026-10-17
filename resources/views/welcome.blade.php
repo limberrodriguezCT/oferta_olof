@@ -70,6 +70,9 @@
                         'centro8.jpg',
                         'centro9.jpg',
                         'centro10.jpg',
+                        'centro11.jpg',
+                        'centro12.jpg',
+                        
                     ];
                 @endphp
 
