@@ -12,17 +12,18 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex h-full items-center">
-                    <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-4 {{ request()->routeIs('dashboard') ? 'border-[#8cc63f] text-[#8cc63f]' : 'border-transparent text-white hover:text-[#8cc63f] hover:border-[#8cc63f]' }} text-lg font-bold leading-5 transition duration-150 ease-in-out h-full mt-1">
+                <div class="hidden space-x-4 sm:-my-px xl:ms-6 xl:flex h-full items-center">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center px-1 pt-1 border-b-4 {{ request()->routeIs('dashboard') ? 'border-[#8cc63f] text-[#8cc63f]' : 'border-transparent text-white hover:text-[#8cc63f] hover:border-[#8cc63f]' }} text-sm font-bold leading-5 transition duration-150 ease-in-out h-full mt-1">
                         {{ __('Panel Principal') }}
                     </a>
-                    <a href="{{ route('carreras.index') }}" class="inline-flex items-center px-1 pt-1 border-b-4 {{ request()->routeIs('carreras.*') ? 'border-[#8cc63f] text-[#8cc63f]' : 'border-transparent text-white hover:text-[#8cc63f] hover:border-[#8cc63f]' }} text-lg font-bold leading-5 transition duration-150 ease-in-out h-full mt-1">
+                    <a href="{{ route('carreras.index') }}" class="inline-flex items-center px-1 pt-1 border-b-4 {{ request()->routeIs('carreras.*') ? 'border-[#8cc63f] text-[#8cc63f]' : 'border-transparent text-white hover:text-[#8cc63f] hover:border-[#8cc63f]' }} text-sm font-bold leading-5 transition duration-150 ease-in-out h-full mt-1">
                         {{ __('Especialidades') }}
                     </a>
-                    <a href="{{ route('interesados.index') }}" class="inline-flex items-center px-1 pt-1 border-b-4 {{ request()->routeIs('interesados.*') ? 'border-[#8cc63f] text-[#8cc63f]' : 'border-transparent text-white hover:text-[#8cc63f] hover:border-[#8cc63f]' }} text-lg font-bold leading-5 transition duration-150 ease-in-out h-full mt-1">
+                    <a href="{{ route('interesados.index') }}" class="inline-flex items-center px-1 pt-1 border-b-4 {{ request()->routeIs('interesados.*') ? 'border-[#8cc63f] text-[#8cc63f]' : 'border-transparent text-white hover:text-[#8cc63f] hover:border-[#8cc63f]' }} text-sm font-bold leading-5 transition duration-150 ease-in-out h-full mt-1">
                         {{ __('Prospectos') }}
                     </a>
                     
+                    <a href="{{ route('matriculas.index') }}" class="inline-flex items-center px-1 pt-1 border-b-4 {{ request()->routeIs('matriculas.*') ? 'border-[#8cc63f] text-[#8cc63f]' : 'border-transparent text-white hover:text-[#8cc63f] hover:border-[#8cc63f]' }} text-sm font-bold leading-5 transition duration-150 ease-in-out h-full mt-1">Matrículas</a>
                     <a href="{{ route('inicio') }}" target="_blank" class="inline-flex items-center ml-4 px-4 py-2 bg-[#0089D0] border border-transparent rounded-full font-bold text-xs text-white uppercase tracking-widest hover:bg-[#8cc63f] transition ease-in-out duration-150 shadow-md">
                         Ver Sitio Web
                     </a>
@@ -30,7 +31,7 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden xl:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-4 font-bold rounded-full text-[#003876] bg-white hover:bg-gray-100 focus:outline-none transition ease-in-out duration-150 shadow-md">
@@ -58,7 +59,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
+            <div class="-me-2 flex items-center xl:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-[#8cc63f] hover:bg-[#002652] focus:outline-none focus:bg-[#002652] focus:text-[#8cc63f] transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -70,7 +71,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-white shadow-inner">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden xl:hidden bg-white shadow-inner">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="font-bold text-[#003876]">
                 {{ __('Panel Principal') }}
@@ -81,6 +82,7 @@
             <x-responsive-nav-link :href="route('interesados.index')" :active="request()->routeIs('interesados.*')" class="font-bold text-[#003876]">
                 {{ __('Prospectos') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('matriculas.index')" :active="request()->routeIs('matriculas.*')" class="font-bold text-[#003876]">Matrículas</x-responsive-nav-link>
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200 bg-gray-50">

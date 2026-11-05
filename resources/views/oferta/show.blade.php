@@ -53,6 +53,10 @@
         </div>
     </section>
 
+    <div class="max-w-7xl mx-auto px-4">
+        <a href="{{ route('matriculas.create', ['carrera_id' => $carrera->id]) }}" class="inline-block bg-[#E91E63] hover:bg-pink-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg transition">Solicitar matrícula en esta especialidad</a>
+    </div>
+
     <!-- Detalles, Video y Formulario -->
     <section class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-12 gap-10">
         

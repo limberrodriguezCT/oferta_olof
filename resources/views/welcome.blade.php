@@ -48,6 +48,10 @@
         </div>
     </section>
 
+    <div class="max-w-6xl mx-auto px-4 pb-8 text-center">
+        <a href="{{ route('matriculas.create') }}" class="inline-block bg-[#E91E63] hover:bg-pink-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg transition">Completar formulario de matrícula</a>
+    </div>
+
     <!-- Carrusel del Centro -->
     <section class="max-w-6xl mx-auto px-4 mb-16 mt-8">
         <h3 class="text-3xl font-extrabold text-center text-[#003876] mb-8">Conoce Nuestro centro:</h3>

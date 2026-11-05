@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Carrera extends Model
 {
@@ -19,7 +20,7 @@ class Carrera extends Model
         'requisitos',
         'imagen_ruta',
         'video_url',
-        'anio_academico'
+        'anio_academico',
     ];
 
     public function interesados()
@@ -27,17 +28,22 @@ class Carrera extends Model
         return $this->hasMany(Interesado::class);
     }
 
+    public function matriculas(): HasMany
+    {
+        return $this->hasMany(Matricula::class);
+    }
+
     // Atributo dinámico que extrae el ID del video y lo convierte a formato embed
     public function getEmbedVideoAttribute()
     {
-        if (!$this->video_url) {
+        if (! $this->video_url) {
             return null;
         }
 
         preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i', $this->video_url, $matches);
 
         if (isset($matches[1])) {
-            return 'https://www.youtube.com/embed/' . $matches[1];
+            return 'https://www.youtube.com/embed/'.$matches[1];
         }
 
         return null;
